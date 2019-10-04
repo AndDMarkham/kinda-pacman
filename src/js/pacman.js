@@ -7,20 +7,28 @@ class Pac {
       this.mouth = true;
     }
 
-    move() {
-        switch (dir){
-            case 'ArrowRight': 
-                this.xpos += 1;
-                this.direction = 'right';
-            case 'ArrowLeft':
-                this.xpos -= 1;
-                this.direction = 'left';
-            case 'ArrowUp':
-                this.ypos -= 1;
-                this.direction = 'up';
-            case 'ArrowDown':
-                this.ypos += 1;
-                this.direction = 'down';
+    move(dir) {
+        switch(dir){
+            case 'right': 
+                if (this.xpos <= this.stage.width - 2) {
+                    this.xpos += 1;
+                }
+                break;
+            case 'left':
+                if (this.xpos >= 1) {
+                    this.xpos -= 1;
+                }
+                break;
+            case 'up':
+                if (this.ypos >= 1) {
+                    this.ypos -= 1;
+                }
+                break;
+            case 'down':
+                if (this.ypos <= this.stage.height - 2) {
+                    this.ypos += 1;
+                }
+                break;
             }
             this.chomp();
             this.update();
@@ -56,9 +64,19 @@ class Pac {
         );
 
         document.addEventListener('keydown',() => {
-            let dir = event.key;
-            this.move(dir);
-            this.update();
+            if (event.key === 'ArrowRight') {
+                this.direction = 'right';
+                this.move(this.direction);
+            } else if (event.key === 'ArrowLeft') {
+                this.direction = 'left';
+                this.move(this.direction);
+            } else if (event.key === 'ArrowUp') {
+                this.direction = 'up';
+                this.move(this.direction);
+            } else if (event.key === 'ArrowDown') {
+                this.direction = 'down';
+                this.move(this.direction);
+            }
         });
 
         this.update();
