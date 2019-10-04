@@ -1,28 +1,44 @@
 class Pac {
-  constructor(xpos, ypos, direction ) {
+  constructor(xpos, ypos, direction, stage ) {
       this.xpos = xpos;
       this.ypos = ypos;
       this.direction = direction;
+      this.stage = stage;
       this.mouth = true;
     }
 
-    move(dir) {
-      if (dir === 'ArrowRight') {
-          this.xpos += TILE_SIZE;
-          this.direction = 'right';
-      } else if (dir === 'ArrowLeft') {
-          this.xpos -= TILE_SIZE;
-          this.direction = 'left';
-      } else if (dir === 'ArrowUp') {
-          this.ypos -= TILE_SIZE;
-          this.direction = 'up';
-      } else if (dir === 'ArrowDown') {
-          this.ypos += TILE_SIZE;
-          this.direction = 'down';
-      }
-      this.chomp();
-      this.update();
-    }
+    move() {
+        switch (dir){
+            case 'ArrowRight': 
+                this.xpos += 1;
+                this.direction = 'right';
+            case 'ArrowLeft':
+                this.xpos -= 1;
+                this.direction = 'left';
+            case 'ArrowUp':
+                this.ypos -= 1;
+                this.direction = 'up';
+            case 'ArrowDown':
+                this.ypos += 1;
+                this.direction = 'down';
+            }
+            this.chomp();
+            this.update();
+        } 
+
+    
+        /*if (this.xpos >= this.stage.width){
+            return false;
+        } else if (this.xpos <= 0){
+            return false;
+        } else if (this.ypos >= this.stage.height){
+            return false;
+        } else if (this.ypos <= 0){
+            return false;
+        } else {
+            return true;
+        }
+    }*/ 
 
     chomp() {
         if (this.mouth === true) {
@@ -34,18 +50,20 @@ class Pac {
 
     render() {
         this.element = document.createElement('div');
-        this.element.className = 'stage'
+        this.element.className = 'pac'
         this.element.innerHTML = (
             `<div class="entity entity--pac pacboy-active-light"></div>`
         );
 
         document.addEventListener('keydown',() => {
-            let dir = event.key
+            let dir = event.key;
             this.move(dir);
             this.update();
         });
 
-        this.update;
+        this.update();
+
+        return this.element;
     }
 
     mount(parent) {
@@ -56,8 +74,8 @@ class Pac {
     update() {
         const pacboyLight = this.element.querySelector('.pacboy-active-light');
         const pacboy = this.element.querySelector('.entity--pac');
-        pacboy.style.left = `${this.xpos}px`;
-        pacboy.style.top = `${this.ypos}px`; 
+        pacboy.style.left = `${this.xpos*TILE_SIZE}px`;
+        pacboy.style.top = `${this.ypos*TILE_SIZE+8}px`; 
 
         if (this.mouth===true) {
             pacboyLight.style.backgroundPositionX = 'right';

@@ -58,9 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // update();
   
   const app = document.querySelector('#app');
-  const pac = new Pac (10, 20, 'down');
-  pac.mount(app);
-  
+  const stage = new Stage(5,8);
+  stage.mount(app);
+  const stageapp = document.querySelector('.stage')
+  const pac = new Pac(0, 0, 'right',stage);
+  pac.mount(stageapp);
   
   
   
